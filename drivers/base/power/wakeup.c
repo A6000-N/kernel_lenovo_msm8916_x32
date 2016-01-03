@@ -15,8 +15,12 @@
 #include <linux/seq_file.h>
 #include <linux/debugfs.h>
 #include <trace/events/power.h>
+#include <linux/moduleparam.h>
 
 #include "power.h"
+
+static bool enable_bluedroid_timer_ws = true;
+module_param(enable_bluedroid_timer_ws, bool, 0644);
 
 /*
  * If set, the suspend/hibernate code will abort transitions to a sleep state
@@ -410,6 +414,9 @@ EXPORT_SYMBOL_GPL(device_set_wakeup_enable);
 static void wakeup_source_activate(struct wakeup_source *ws)
 {
 	unsigned int cec;
+
+	if (!enable_bluedroid_timer_ws && !strcmp(ws->name, "bluedroid_timer"))
+		return;
 
 	/*
 	 * active wakeup source should bring the system
