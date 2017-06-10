@@ -45,7 +45,8 @@ static DEFINE_MUTEX(devfreq_list_lock);
 
 /* List of devices to boost when the screen is woken */
 static const char *boost_devices[] = {
-	"soc:qcom,cpubw"
+        "1c00000.qcom,kgsl-3d0",
+        "qcom,cpubw.30"
 };
 
 #define WAKE_BOOST_DURATION_MS (5000)
