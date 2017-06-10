@@ -36,6 +36,7 @@
 #include <linux/capability.h>
 #include <linux/compat.h>
 #include <linux/pm_runtime.h>
+#include <linux/iosched_switcher.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/mmc.h>
