@@ -240,10 +240,11 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else if [ -x /bin/bash ]; then echo /bin/bash; \
 	  else echo sh; fi ; fi)
 
+GRAPHITE = -fgraphite -fgraphite-identity -floop-interchange -ftree-loop-distribution -floop-strip-mine -floop-block -ftree-loop-linear
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89 $(GRAPHITE)
+HOSTCXXFLAGS = -O2 $(GRAPHITE)
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -376,7 +377,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -std=gnu89 -mtune=cortex-a15 -mfpu=neon-vfpv4
+		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -579,6 +580,15 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
 
 # Needed to unbreak GCC 7.x and above
 KBUILD_CFLAGS   += $(call cc-option,-fno-store-merging,)
+
+KBUILD_CFLAGS   += $(call cc-disable-warning,misleading-indentation,)
+
+# Disable all buggy detection warnings
+KBUILD_CFLAGS   += $(call cc-disable-warning,incompatible-pointer-types,)
+KBUILD_CFLAGS   += $(call cc-disable-warning,unused-const-variable,)
+
+# Kill format truncation warnings
+KBUILD_CFLAGS   += $(call cc-disable-warning,format-truncation,)
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
