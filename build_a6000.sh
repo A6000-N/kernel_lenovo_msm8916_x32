@@ -101,8 +101,8 @@ case "$echoice" in
 		break
 		;;
 	2 )
-		export CROSS_COMPILE=$TOOLCHAIN_DIR/uber-4.9/bin/arm-eabi-
-		export LD_LIBRARY_PATH=$TOOLCHAIN_DIR/uber-4.9/lib/
+		export CROSS_COMPILE=$TOOLCHAIN_DIR/arm-eabi-4.8/bin/arm-eabi-
+		export LD_LIBRARY_PATH=$TOOLCHAIN_DIR/arm-eabi-4.8/lib/
 		STRIP=$TOOLCHAIN_DIR/uber-4.9/bin/arm-eabi-
 		TC="UB"
 		rm -rf $MODULES_DIR/*
